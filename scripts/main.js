@@ -77,8 +77,8 @@ document
       topLeft.style.fill = "black";
       logoName.style.fill = "black";
       bottomRight.style.fill = "black";
-      topRight.style.fill = "#22B34F";
-      bottomLeft.style.fill = "#22B34F";
+      topRight.style.fill = "#4169E1";
+      bottomLeft.style.fill = "#4169E1";
       evt.target.innerHTML = "Switch to Dark";
       document.getElementById("toggleColor").classList.remove("btn-light");
       document.getElementById("toggleColor").classList.add("btn-dark");

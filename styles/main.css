@@ -65,12 +65,12 @@ body {
 
 .btn-primary {
   color: white !important;
-  background-color: #08b74f !important;
-  border-color: #08b74f !important;
+  background-color: #4169E1 !important;
+  border-color: #4169E1 !important;
 }
 
 .btn-primary:hover {
-  background-color: #0cb44f !important;
+  background-color: #3457D5 !important;
 }
 
 /* =============================================================================
@@ -162,8 +162,8 @@ body.dark-theme .text-blue {
 }
 
 body.dark-theme .btn-primary {
-  background-color: #0cb44f !important;
-  border-color: #0cb44f !important;
+  background-color: #3457D5 !important;
+  border-color: #3457D5 !important;
 }
 
 body.dark-theme .dropdown-menu {
