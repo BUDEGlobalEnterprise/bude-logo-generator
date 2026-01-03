@@ -9,7 +9,7 @@
 [![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
 [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
-**Create stunning, customizable logos for your FOSS Club or community in seconds!**
+**Create stunning, customizable logos for your community or organization in seconds!**
 
 [Live Demo](#) · [Report Bug](../../issues) · [Request Feature](../../issues) · [💬 Join WhatsApp Community](https://chat.whatsapp.com/CkBNXSwAC6lCBNtHT7XqLt)
 

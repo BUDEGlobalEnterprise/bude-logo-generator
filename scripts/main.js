@@ -2,7 +2,7 @@
  * BUDE Logo Generator - Main Application Script
  *
  * This script handles the logo generation, theme toggling, and download
- * functionality for the BUDE/FOSS Club Logo Generator.
+ * functionality for the BUDE Global Logo Generator.
  *
  * @author BUDE Global Enterprise
  * @version 1.0.0
@@ -47,7 +47,7 @@ document
   .getElementById("toggleColor")
   .addEventListener("click", function (evt) {
     var cardTemplate = document.querySelector(".card");
-    var foss = document.getElementById("FossClub");
+    var budeGlobal = document.getElementById("BudeGlobal");
     var logoName = document.getElementById("logoName");
     var topLeft = document.getElementById("topLeft");
     var bottomRight = document.getElementById("bottomRight");
@@ -57,7 +57,7 @@ document
       svg.style.fill = "black";
       cardTemplate.style.backgroundColor = "#191919";
       cardTemplate.firstElementChild.style.color = "white";
-      foss.style.fill = "white";
+      if (budeGlobal) budeGlobal.style.fill = "white";
       logoName.style.fill = "white";
       topLeft.style.fill = "white";
       bottomRight.style.fill = "white";
@@ -73,7 +73,7 @@ document
       svg.style.fill = "white";
       cardTemplate.style.backgroundColor = "white";
       cardTemplate.firstElementChild.style.color = "#6c757d";
-      foss.style.fill = "black";
+      if (budeGlobal) budeGlobal.style.fill = "black";
       topLeft.style.fill = "black";
       logoName.style.fill = "black";
       bottomRight.style.fill = "black";
@@ -132,7 +132,7 @@ function triggerDownload(imgURI) {
   var str = document.getElementById("collegeName").value;
   a.setAttribute(
     "download",
-    "FOSS Club".concat(str).concat(`.${format.toLowerCase()}`)
+    "BUDE_Global_".concat(str).concat(`.${format.toLowerCase()}`)
   );
   a.setAttribute("href", imgURI);
   a.setAttribute("target", "_blank");
@@ -181,7 +181,7 @@ document
 // =============================================================================
 
 /**
- * Input element for college name with real-time preview updates.
+ * Input element for organization name with real-time preview updates.
  * @type {HTMLInputElement}
  */
 var keyChange = document.getElementById("collegeName");
@@ -195,7 +195,7 @@ keyChange.onkeyup = keyChange.onkeypress = function () {
 };
 
 /**
- * Updates the logo text with the current college name input value.
+ * Updates the logo text with the current organization name input value.
  * Called on form submission and during typing for real-time preview.
  */
 function changeCollegeName() {
