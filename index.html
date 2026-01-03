@@ -39,10 +39,8 @@
           />
         </div>
         <h3 class="text-center font-weight-bold">
-          <span class="text-black"
-            >BUDE
-            <span style="color: #4169E1">GLOBAL</span>
-          </span>
+          <span style="color: #4169E1">BUDE</span>
+          <span class="text-black">GLOBAL</span>
           Logo Generator
         </h3>
         <p class="text-secondary text-center">
@@ -89,70 +87,57 @@
         </form>
 
         <div class="card card-body shadow-sm border-3 position-relative">
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="text-sm preview-text" id="previewText">PREVIEW</div>
-            <button
-              type="button"
-              id="toggleColor"
-              class="btn btn-block btn-dark shadow-sm"
-            >
-              Switch to Dark
-            </button>
+          <div class="text-center">
+            <span class="text-sm preview-text text-muted" id="previewText">PREVIEW</span>
           </div>
 
-          <div class="text-center py-4">
-            <!-- BUDE GLOBAL Logo SVG -->
+          <div class="text-center py-3">
+            <!-- Clean Logo Design - BUDE Logo + Organization Name -->
             <svg
               id="svgLogo"
               xmlns="http://www.w3.org/2000/svg"
               xmlns:xlink="http://www.w3.org/1999/xlink"
-              viewBox="0 0 800 400"
-              width="1014"
-              height="594"
+              viewBox="0 0 300 140"
+              width="400"
+              height="240"
             >
               <defs>
                 <style>
-                  .cls-8 {
-                    font-size: 31.93px;
-                    font-family: "Open Sans", sans-serif;
-                    font-weight: 400;
+                  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+                  .org-name {
+                    font-size: 15px;
+                    font-family: 'Montserrat', sans-serif;
+                    font-weight: 700;
+                    fill: url(#textGradient);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
                   }
                 </style>
+                <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" style="stop-color:#4169E1;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#1E3A8A;stop-opacity:1" />
+                </linearGradient>
               </defs>
               
-              <!-- BUDE Logo Image -->
+              <!-- BUDE Logo Image - Centered & Compact -->
               <image
                 id="budeLogo"
-                x="130"
-                y="130"
-                width="120"
-                height="120"
-                href="https://raw.githubusercontent.com/BUDEGlobalEnterprise/bude-global-tech-presentations/main/assets/images/budeglobal_logo.png"
+                x="75"
+                y="5"
+                width="150"
+                height="110"
+                href="assets/BUDE-Logo.png"
                 preserveAspectRatio="xMidYMid meet"
               />
               
-              <!-- BUDE GLOBAL Text -->
+              <!-- Organization Name - Closer to Logo -->
               <text
-                id="BudeGlobal"
-                x="270"
-                y="180"
-                style="
-                  font-size: 52px;
-                  font-family: 'Open Sans', sans-serif;
-                  font-weight: 700;
-                  fill: #1a1a1a;
-                "
+                x="150"
+                y="125"
+                text-anchor="middle"
+                class="org-name"
               >
-                <tspan>BUDE </tspan>
-                <tspan style="fill: #4169E1">GLOBAL</tspan>
-              </text>
-              <text
-                class="cls-8"
-                transform="translate(260 240.78)"
-                x="10"
-                y="0"
-              >
-                <tspan id="logoName" class="name">Your Organization</tspan>
+                <tspan id="logoName">Your Organization</tspan>
               </text>
             </svg>
           </div>

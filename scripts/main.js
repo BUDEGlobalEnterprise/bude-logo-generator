@@ -1,11 +1,11 @@
 /**
  * BUDE Logo Generator - Main Application Script
  *
- * This script handles the logo generation, theme toggling, and download
- * functionality for the BUDE Global Logo Generator.
+ * This script handles the logo generation and download
+ * functionality for the BUDE GLOBAL Logo Generator.
  *
  * @author BUDE Global Enterprise
- * @version 1.0.0
+ * @version 2.0.0
  * @license MIT
  */
 
@@ -25,67 +25,8 @@ var image = document.querySelector("img");
 /** @type {HTMLButtonElement} The download button element */
 var downloadBtn = document.getElementById("myBtn");
 
-/** @type {string} Current background color mode ('black' or 'white') */
-var color = "black";
-
 /** @type {string} Current download format ('SVG' or 'PNG') */
 var format = "SVG";
-
-// =============================================================================
-// THEME TOGGLE
-// =============================================================================
-
-/**
- * Theme toggle event listener.
- * Switches between dark and light modes, updating all relevant SVG
- * elements and UI components.
- *
- * @listens click
- * @param {MouseEvent} evt - The click event object
- */
-document
-  .getElementById("toggleColor")
-  .addEventListener("click", function (evt) {
-    var cardTemplate = document.querySelector(".card");
-    var budeGlobal = document.getElementById("BudeGlobal");
-    var logoName = document.getElementById("logoName");
-    var topLeft = document.getElementById("topLeft");
-    var bottomRight = document.getElementById("bottomRight");
-
-    // DARK MODE
-    if (evt.target.innerHTML === "Switch to Dark") {
-      svg.style.fill = "black";
-      cardTemplate.style.backgroundColor = "#191919";
-      cardTemplate.firstElementChild.style.color = "white";
-      if (budeGlobal) budeGlobal.style.fill = "white";
-      logoName.style.fill = "white";
-      topLeft.style.fill = "white";
-      bottomRight.style.fill = "white";
-      topRight.style.fill = "#C8C7C7";
-      bottomLeft.style.fill = "#C8C7C7";
-      evt.target.innerHTML = "Switch to Light";
-      document.getElementById("toggleColor").classList.remove("btn-dark");
-      document.getElementById("toggleColor").classList.add("btn-light");
-      document.getElementById("previewText").style.color = "white";
-    }
-    // LIGHT MODE
-    else {
-      svg.style.fill = "white";
-      cardTemplate.style.backgroundColor = "white";
-      cardTemplate.firstElementChild.style.color = "#6c757d";
-      if (budeGlobal) budeGlobal.style.fill = "black";
-      topLeft.style.fill = "black";
-      logoName.style.fill = "black";
-      bottomRight.style.fill = "black";
-      topRight.style.fill = "#4169E1";
-      bottomLeft.style.fill = "#4169E1";
-      evt.target.innerHTML = "Switch to Dark";
-      document.getElementById("toggleColor").classList.remove("btn-light");
-      document.getElementById("toggleColor").classList.add("btn-dark");
-      document.getElementById("previewText").style.color = "black";
-    }
-    color = svg.style.fill;
-  });
 
 // =============================================================================
 // FORMAT SELECTION
@@ -129,10 +70,12 @@ function triggerDownload(imgURI) {
     cancelable: true,
   });
   var a = document.createElement("a");
-  var str = document.getElementById("collegeName").value;
+  var str = document.getElementById("collegeName").value || "Organization";
+  // Clean filename - remove special characters
+  var cleanName = str.replace(/[^a-zA-Z0-9\s]/g, "").replace(/\s+/g, "_");
   a.setAttribute(
     "download",
-    "BUDE_Global_".concat(str).concat(`.${format.toLowerCase()}`)
+    `BUDE_GLOBAL_${cleanName}.${format.toLowerCase()}`
   );
   a.setAttribute("href", imgURI);
   a.setAttribute("target", "_blank");
@@ -142,21 +85,55 @@ function triggerDownload(imgURI) {
 /**
  * Form submission handler for logo download.
  * Handles both SVG (direct blob download) and PNG (canvas conversion) formats.
+ * Converts external images to base64 for proper embedding.
  *
  * @listens submit
  * @param {Event} event - The form submission event
  */
 document
   .getElementById("downloadForm")
-  .addEventListener("submit", function (event) {
+  .addEventListener("submit", async function (event) {
     event.preventDefault();
     changeCollegeName();
 
-    // Create SVG blob with proper dimensions
-    var openTag = `<svg id="svgLogo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 2028 594" width="2028" height="594">`;
-    var closeTag = "</svg>";
-    var blob = new Blob([`${openTag}${svg.innerHTML}${closeTag}`], {
-      type: "image/svg+xml",
+    // Get the logo image element
+    var logoImage = document.getElementById("budeLogo");
+    var logoUrl = logoImage ? logoImage.getAttribute("href") : null;
+    
+    // Convert external image to base64
+    async function imageToBase64(url) {
+      try {
+        const response = await fetch(url);
+        const blob = await response.blob();
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+        });
+      } catch (e) {
+        console.error("Failed to convert image:", e);
+        return null;
+      }
+    }
+
+    // Get base64 version of logo
+    var base64Logo = null;
+    if (logoUrl) {
+      base64Logo = await imageToBase64(logoUrl);
+    }
+
+    // Clone SVG and replace image href with base64
+    var svgClone = svg.cloneNode(true);
+    var clonedImage = svgClone.getElementById("budeLogo");
+    if (clonedImage && base64Logo) {
+      clonedImage.setAttribute("href", base64Logo);
+    }
+
+    // Create SVG blob with embedded image
+    var svgContent = svgClone.outerHTML;
+    var blob = new Blob([svgContent], {
+      type: "image/svg+xml;charset=utf-8",
     });
     var blobURL = window.URL.createObjectURL(blob);
 
@@ -164,16 +141,24 @@ document
     if (format === "SVG") return triggerDownload(blobURL);
 
     // For PNG format, render to canvas first
-    image.addEventListener("load", function gotImage() {
+    var img = new Image();
+    img.onload = function() {
       window.URL.revokeObjectURL(blobURL);
-      image.removeEventListener("load", gotImage);
+      
+      // Set canvas size to match SVG
+      canvas.width = 800;
+      canvas.height = 480;
+      
       var ctx = canvas.getContext("2d");
-      ctx.drawImage(image, 0, 0);
-      var imageURL = canvas.toDataURL(`image/${format.toLowerCase()}`);
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      
+      var imageURL = canvas.toDataURL("image/png", 1.0);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       triggerDownload(imageURL);
-    });
-    image.setAttribute("src", blobURL);
+    };
+    img.src = blobURL;
   });
 
 // =============================================================================
@@ -190,7 +175,7 @@ var keyChange = document.getElementById("collegeName");
  * Event handlers for real-time logo text updates.
  * Updates the logo preview as the user types.
  */
-keyChange.onkeyup = keyChange.onkeypress = function () {
+keyChange.oninput = function () {
   changeCollegeName();
 };
 
@@ -200,5 +185,14 @@ keyChange.onkeyup = keyChange.onkeypress = function () {
  */
 function changeCollegeName() {
   var collegeName = document.getElementById("collegeName").value;
-  document.getElementById("logoName").textContent = collegeName;
+  var logoNameEl = document.getElementById("logoName");
+  if (logoNameEl) {
+    // Force uppercase for consistent branding
+    logoNameEl.textContent = (collegeName || "Your Organization").toUpperCase();
+  }
 }
+
+// Initialize with placeholder
+document.addEventListener("DOMContentLoaded", function() {
+  changeCollegeName();
+});

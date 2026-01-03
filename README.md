@@ -15,6 +15,12 @@
 
 </div>
 
+## 🖼️ Preview
+
+<div align="center">
+  <img src="assets/Screenshot-Home.png" alt="BUDE Logo Generator Preview" width="800">
+</div>
+
 ---
 
 > [!NOTE]
